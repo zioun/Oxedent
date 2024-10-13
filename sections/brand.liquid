@@ -1,0 +1,93 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .brand__section {
+    background-color: #F9F8FD;
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .brand__title {
+    font-size: 22px;
+    color: #001F51;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 50px;
+    padding-bottom: 30px;
+  }
+  .brand__logo {
+    display: flex;
+  }
+  .brand__logo__area {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+</style>
+{% style %}
+  
+{% endstyle %}
+
+
+<section class="brand__section">
+  <div class="container">
+    <h1 class="brand__title">Trusted by the brands you know and love!</h1>
+    <div class="brand__logo">
+      <div class="brand__logo__area">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when "brand__logo" %}
+              {{ block.settings.brand__logo | image_url: width: 100 | image_tag }}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Brand",
+    "blocks": [
+      {
+        "name": "brand__logo",
+        "type": "brand__logo",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "brand__logo",
+            "label": "Brand Logo"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Brand",
+        "blocks": [
+          {
+            "type": "brand__logo"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
