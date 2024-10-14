@@ -16,8 +16,11 @@
     max-width: 900px;
     margin: auto;
   }
-  .brand__section {
+  .brand__area {
     background-color: #F9F8FD;
+  }
+  .brand__section {
+
     margin-top: 60px;
     display: flex;
     justify-content: center;
@@ -40,24 +43,99 @@
     align-items: center;
     flex-wrap: wrap;
   }
+  .cards__title {
+    max-width: 500px;
+    margin: auto;
+  }
+  .cards__title h1 {
+    font-weight: bold;
+    text-align: center;
+    font-size: 30px;
+    margin-top: 100px;
+    margin-bottom: 37px;
+  }
+  .cards__area {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .card {
+    border: 1px solid #DFDFDF;
+    padding: 40px 20px;
+    border-radius: 10px;
+    max-width: 285px;
+  }
+  .card__image{
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E1ECFB;
+    border-radius: 50px;
+    margin-bottom: 10px;
+  }
+  .card__image img{
+    width: 40px;
+  }
+  .card h1{
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .card p{
+    font-size: 15px;
+    color: #5C5B5C;
+    font-weight: 400;
+  }
+  .card__button__area{
+    padding-bottom: 60px;
+  }
 </style>
 {% style %}
-  
+
 {% endstyle %}
 
-
-<section class="brand__section">
-  <div class="container">
-    <h1 class="brand__title">Trusted by the brands you know and love!</h1>
-    <div class="brand__logo">
-      <div class="brand__logo__area">
-        {% for block in section.blocks %}
-          {% case block.type %}
-            {% when "brand__logo" %}
-              {{ block.settings.brand__logo | image_url: width: 100 | image_tag }}
-          {% endcase %}
-        {% endfor %}
+<section class="brand__area">
+  <div class="brand__section">
+    <div class="container">
+      <h1 class="brand__title">Trusted by the brands you know and love!</h1>
+      <div class="brand__logo">
+        <div class="brand__logo__area">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when "brand__logo" %}
+                {{ block.settings.brand__logo | image_url: width: 100 | image_tag }}
+            {% endcase %}
+          {% endfor %}
+        </div>
       </div>
+    </div>
+  </div>
+  <div class="cards__title">
+    <h1>{{ section.settings.cards__title }}</h1>
+  </div>
+  <div class="cards__area container">
+    {% for block in section.blocks %}
+      {% if block.type == "card__item" %}
+        <div class="card">
+          <div class="card__image">
+            {% if block.settings.card__image != blank %}
+              {{ block.settings.card__image | image_url: width: 100 | image_tag }}
+            {% endif %}
+          </div>
+          <h1>{{ block.settings.card__title }}</h1>
+          <p>{{ block.settings.card__paragraph }}</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="card__button__area">
+    <div class="video__frame__bottom">
+        <h2>Get this scaling strategy to work for your brand.</h2>
+        <div class="video__frame__buttom--area">
+            <a href="#">See If Your Brand Qualifies</a>
+        </div>
     </div>
   </div>
 </section>
@@ -66,6 +144,14 @@
 {% schema %}
   {
     "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cards__title",
+        "default": "Our Proven Strategies for Driving Revenue Growth",
+        "label": "Card Title"
+      }
+    ],
     "blocks": [
       {
         "name": "brand__logo",
@@ -77,6 +163,26 @@
             "label": "Brand Logo"
           }
         ]
+      }, {
+        "name": "card__item",
+        "type": "card__item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "card__image",
+            "label": "Card Item"
+          },{
+            "type": "text",
+            "id": "card__title",
+            "label": "Card Title",
+            "default": "Card Title"
+          },{
+            "type": "richtext",
+            "id": "card__paragraph",
+            "label": "Card Paragraph",
+            "default": "<p>Card Paragraph</p>"
+          }
+        ]
       }
     ],
     "presets": [
@@ -85,6 +191,8 @@
         "blocks": [
           {
             "type": "brand__logo"
+          }, {
+            "type": "card__item"
           }
         ]
       }
