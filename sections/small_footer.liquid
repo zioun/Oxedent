@@ -1,0 +1,45 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .footer__area{
+    background-color: #001F51;
+    width: 100%;
+  }
+
+</style>
+{% style %}
+    .footer__area{
+        height: {{ section.settings.footer__padding }}px;
+    }
+{% endstyle %}
+
+<div class="footer__area">
+    
+</div>
+
+
+{% schema %}
+  {
+    "name": "Footer Area",
+    "settings": [
+      {
+        "type": "range",
+        "id": "footer__padding",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding",
+        "default": 50
+      }
+    ],
+    "presets": [
+      {
+        "name": "Footer Area"
+      }
+    ]
+  }
+{% endschema %}

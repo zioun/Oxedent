@@ -1,0 +1,94 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .ad__page__area {
+    background-color: white;
+  }
+  .ad__page{
+    border: 1px solid black;
+  }
+  .ad__page__section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .ad__page__title {
+    font-size: 40px;
+    color: #3D3D3D;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-top: 42px;
+    margin-bottom: 30px;
+  }
+  .ad_page_single{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ad_page_single img{
+    max-width: 480px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  
+</style>
+{% style %}
+
+{% endstyle %}
+
+<section class="ad__page__area container">
+  <div class="ad__page__section">
+    <div class="container">
+      <h1 class="ad__page__title">{{ section.settings.ad__page__title }}</h1>
+      <div class="ad_page_single">
+        {% if section.settings.ad_image_big != nil %}
+            {{ section.settings.ad_image_big |  image_url: width: 800 |  image_tag }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Ad Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "ad__page__title",
+        "default": "Button",
+        "label": "Ad Page"
+      },
+      {
+        "type": "image_picker",
+        "id": "ad_image_big",
+        "label": "Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Ad Page"
+      }
+    ]
+  }
+{% endschema %}
+
+

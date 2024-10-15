@@ -72,7 +72,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #E1ECFB;
     border-radius: 50px;
     margin-bottom: 10px;
   }
@@ -80,8 +79,9 @@
     width: 40px;
   }
   .card h1{
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
+    margin-bottom: 5px;
   }
   .card p{
     font-size: 15px;
@@ -93,7 +93,6 @@
   }
 </style>
 {% style %}
-
 {% endstyle %}
 
 <section class="brand__area">
@@ -119,7 +118,7 @@
     {% for block in section.blocks %}
       {% if block.type == "card__item" %}
         <div class="card">
-          <div class="card__image">
+          <div class="card__image" style="background-color: {{ block.settings.icon__background }};">
             {% if block.settings.card__image != blank %}
               {{ block.settings.card__image | image_url: width: 100 | image_tag }}
             {% endif %}
@@ -181,6 +180,11 @@
             "id": "card__paragraph",
             "label": "Card Paragraph",
             "default": "<p>Card Paragraph</p>"
+          },{
+            "type": "color",
+            "id": "icon__background",
+            "label": "Icon Background",
+            "default": "#E1ECFB"
           }
         ]
       }

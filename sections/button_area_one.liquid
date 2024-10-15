@@ -1,0 +1,109 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .button__one__area {
+    background-color: #F3F3F3 !important;
+  }
+  .button__one{
+    border: 1px solid black;
+  }
+  .button__one__section {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .button__one__title {
+    font-size: 20px;
+    color: #3D3D3D;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-top: 42px;
+    margin-bottom: 30px;
+  }
+  .button__one__btn{
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .button__one__btn a{
+    color: white;
+    font-size: 15px;
+    padding: 15px 30px;
+    background-color: #ED1479;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+  }
+  .button__one__btn__icon svg{
+    width: 25px;
+    margin-bottom: -7px;
+  }
+  
+</style>
+{% style %}
+
+{% endstyle %}
+
+<section class="button__one__area">
+  <div class="button__one__section">
+    <div class="container">
+      <h1 class="button__one__title">{{ section.settings.button__one__group__title }}</h1>
+      <div class="button__one__btn">
+        <a href={{ section.settings.button__one__group__url }}>{{ section.settings.button__one__group__text }} <span class="button__one__btn__icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+      </svg></span>
+      </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Button Group",
+    "settings": [
+      {
+        "type": "text",
+        "id": "button__one__group__title",
+        "default": "Button",
+        "label": "Card Title"
+      },
+      {
+        "type": "text",
+        "id": "button__one__group__text",
+        "default": "Button",
+        "label": "Card Title"
+      },
+      {
+        "type": "url",
+        "id": "button__one__group__url",
+        "label": "Button Link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Button Group"
+      }
+    ]
+  }
+{% endschema %}
+
+

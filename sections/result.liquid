@@ -1,0 +1,185 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .result__page__area {
+    background-color: white;
+  }
+  .result__page {
+    border: 1px solid black;
+  }
+  .result__page__section {
+    display: flex;
+    justify-content: center;
+  }
+  .result__page__title {
+    font-size: 40px;
+    color: #3D3D3D;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-top: 42px;
+    margin-bottom: 30px;
+  }
+  .result__card__area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border-bottom: 1px solid black;
+    padding: 50px 0px;
+  }
+  .result__card__area.last-card {
+  border-bottom: none;
+}
+  .result__card__area img {
+    max-width: 288px;
+    height: 288px;
+    object-fit: cover;
+  }
+  .result__card__area--title--1 h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #ED1479;
+  }
+  .result__card__area--title--2 {
+    display: flex;
+  }
+  .result__card__area--title--2 h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .result__card__area--title--2 svg {
+    color: #009BDF;
+
+  }
+  .result__card__area--paragraph p {
+    font-weight: 500;
+  }
+  .result__card__area--paragraph a {
+    color: #ED1479;
+    font-weight: bold;
+  }
+
+</style>
+{% style %}
+
+{% endstyle %}
+
+<section class="result__page__area container">
+  <div class="result__page__section">
+    <div class="container">
+      <h1 class="result__page__title">{{ section.settings.result__page__title }}</h1>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when "result__section" %}
+          <div class="result__card__area {% if forloop.last %}last-card{% endif %}">
+            <div>
+              {% if block.settings.result__left__img != nil %}
+                {{ block.settings.result__left__img |  image_url: width: 800 |  image_tag }}
+              {% endif %}
+            </div>
+            <div>
+              <div class="result__card__area--title--1">
+                <h1>{{ block.settings.price__one }}</h1>
+              </div>
+              <div class="result__card__area--title--2">
+                <h1>{{ block.settings.price__two }}</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  width="24"
+                  height="24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.99 7.5l3.75-3.75m0 0l3.75 3.75m-3.75-3.75v16.499H4.49" />
+                </svg>
+              </div>
+              <div class="result__card__area--paragraph">
+                <p>{{ block.settings.result__para }}</p>
+                <a href="#">Read more</a>
+              </div>
+            </div>
+            <div>
+              {% if block.settings.result__right__img != nil %}
+                {{ block.settings.result__right__img |  image_url: width: 800 |  image_tag }}
+              {% endif %}
+            </div>
+          </div>
+        {% endcase %}
+      {% endfor %}
+      
+  </div>
+</div></section>{% schema %}
+{
+  "name": "Result Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "result__page__title",
+      "default": "Button",
+      "label": "Result Page"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "result__section",
+      "type": "result__section",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "result__left__img",
+          "label": "left__image"
+        }, {
+          "type": "text",
+          "id": "price__one",
+          "label": "Price one",
+          "default": "$247k/m"
+        }, {
+          "type": "text",
+          "id": "price__two",
+          "label": "Price two",
+          "default": "$105k/m"
+        }, {
+          "type": "richtext",
+          "id": "result__para",
+          "label": "Paragraph",
+          "default": "<p>Here's how we scale this brand from $105K to $247K in 2 months</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "result__right__img",
+          "label": "left__image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Result Page",
+      "blocks": [
+        {
+          "type": "result__section"
+        }
+      ]
+    }
+  ]
+}{% endschema %}
