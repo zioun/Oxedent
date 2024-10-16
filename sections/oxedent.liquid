@@ -31,12 +31,17 @@
     outline: none;
     text-decoration: none;
     color: white;
+    transition: 0.5s;
+  }
+  .header__btn:hover {
+    background-color: #001F51;
   }
   .brand__slogan__subTitle p {
-    font-size: 15px;
+    font-size: 18px;
     color: #001F51;
     text-align: center;
     font-weight: bold;
+    text-decoration: underline;
   }
   .brand__slogan__subTitle p span,
   .brand__slogan__title h1 span {
@@ -46,24 +51,24 @@
     width: 100%;
     height: 505px;
   }
-  .video__frame__bottom{
+  .video__frame__bottom {
     text-align: center;
   }
-  .video__frame__bottom h2{
+  .video__frame__bottom h2 {
     font-size: 20px;
     color: #555455;
   }
-  .video__frame__bottom{
+  .video__frame__bottom {
     margin-top: 10px;
   }
-  .video__frame__buttom--area{
+  .video__frame__buttom--area {
     padding-top: 30px;
   }
-  .video__frame__bottom h2{
+  .video__frame__bottom h2 {
     font-weight: bold;
     font-size: 20px;
   }
-  .video__frame__bottom a{
+  .video__frame__bottom a {
     font-size: 16px;
     text-transform: uppercase;
     padding: 15px 26px;
@@ -73,7 +78,91 @@
     outline: none;
     text-decoration: none;
     margin-top: 100px;
+    transition: 0.5s;
   }
+  .video__frame__bottom a:hover {
+    background-color: #001F51;
+  }
+  @media (max-width: 1200px) {
+    .container {
+      max-width: 900px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      max-width: 740px !important;
+    }
+    .cards__area {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .card {
+      max-width: 100% !important;
+    }
+    .gellery__item__area {
+      grid-template-columns: repeat(1, 1fr) !important;
+    }
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      max-width: 500px !important;
+    }
+    .header__btn {
+      display: none !important;
+    }
+    .header {
+      justify-content: center !important;
+    }
+    .header__logo {}
+  .video__frame video {
+    height: auto !important;
+  }
+  .brand__slogan {
+    padding-top: 30px !important;
+  }
+  .cards__area {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  .card {
+    max-width: 100% !important;
+  }
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .result__card__area {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  .result__card__area img {
+    max-width: 100% !important;
+  }
+  .result__section__video--area {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  .cards__title h1,
+  .video__frame__bottom h2 {
+    padding: 0 10px !important;
+  }
+  .gellery__title,
+  .ad__page__title,
+  .grid__ad__page__title,
+  .result__page__title,
+  .result__section__title {
+    font-size: 25px !important;
+  }
+}
+
+@media (max-width: 568px) {
+  .container {
+    max-width: 90% !important;
+  }
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
 </style>
 {% style %}
   .header__btn {
@@ -83,8 +172,8 @@
     padding-top: {{ section.settings.brand__slogan__top }}px;
     padding-bottom: {{ section.settings.brand__slogan__bottom }}px;
   }
-  .video__frame__bottom a{
-    border-radius: {{ section.settings.brand__qualifies }}px; 
+  .video__frame__bottom a {
+    border-radius: {{ section.settings.brand__qualifies }}px;
   }
 {% endstyle %}
 <section class="container">
@@ -102,14 +191,11 @@
   </div>
   <div class="brand__slogan">
     <div class="brand__slogan__subTitle">
-      <p>Is your brand making over
-        <span>$10K/MONTH</span>
-        in revenue?</p>
+      {{ section.settings.slogan__subtitle--header }}
     </div>
     <div class="brand__slogan__title">
-      <h1 class="common__title">Here’s the exact step-by-step framework we used to skyrocket this brand from
-        <span>$18K/Mo to $139K/Mo in 7 months</span>
-      </h1>
+      {{ section.settings.slogan__title--header }}
+      
     </div>
   </div>
   <div class="video__frame">
@@ -118,10 +204,10 @@
       }}
     {% endif %}
     <div class="video__frame__bottom">
-        <h2>Looking to scale in the next 6-12 months?</h2>
-        <div class="video__frame__buttom--area">
-            <a href="#">See If Your Brand Qualifies</a>
-        </div>
+      <h2>{{ section.settings.bottom__title }}</h2>
+      <div class="video__frame__buttom--area">
+        <a href={{ section.settings.bottom__button__link }}>{{ section.settings.bottom__button }}</a>
+      </div>
     </div>
   </div>
 </section>
@@ -147,6 +233,29 @@
         "default": "APPLY FOR A FREE AUDIT"
       },
       {
+        "type": "html",
+        "id": "slogan__subtitle--header",
+        "label": "Slogan Sub Title"
+      },
+      {
+        "type": "html",
+        "id": "slogan__title--header",
+        "label": "Slogan Title"
+      }, {
+        "type": "text",
+        "id": "bottom__title",
+        "label": "Bottom Title",
+        "default": "Bottom Title"
+      }, {
+        "type": "text",
+        "id": "bottom__button",
+        "label": "Bottom Button",
+        "default": "Bottom Button"
+      }, {
+        "type": "url",
+        "id": "bottom__button__link",
+        "label": "Bottom Button Link"
+      }, {
         "type": "url",
         "id": "header__button__link",
         "label": "button link"
@@ -200,24 +309,26 @@
 
     ],
     "blocks": [
-        {
-            "name": "brand__logo",
-            "type": "brand__logo",
-            "settings": [
-                {
-                    "type": "image_picker",
-                    "id": "brand__logo",
-                    "label": "Brand Logo"
-                }
-            ]
-        }
+      {
+        "name": "brand__logo",
+        "type": "brand__logo",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "brand__logo",
+            "label": "Brand Logo"
+          }
+        ]
+      }
     ],
     "presets": [
       {
         "name": "oxedent",
-        "blocks": [{
+        "blocks": [
+          {
             "type": "brand__logo"
-        }]
+          }
+        ]
       }
     ]
   }
