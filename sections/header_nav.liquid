@@ -1,0 +1,121 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 27px;
+  }
+  .header__logo img {
+    width: 140px;
+    height: 42px;
+  }
+  .header__btn {
+    padding: 10px 20px;
+    background-color: #ED1479;
+    outline: none;
+    text-decoration: none;
+    color: white;
+    transition: 0.5s;
+    border-radius: 50px;
+  }
+  .header__btn:hover {
+    background-color: #001F51;
+  }
+
+  @media (max-width: 1200px) {
+    .container {
+      max-width: 900px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      max-width: 740px !important;
+    }
+
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      max-width: 500px !important;
+    }
+    .header__btn {
+      display: none !important;
+    }
+    .header {
+      justify-content: center !important;
+    }
+    .header__logo {}
+}
+
+@media (max-width: 568px) {
+  .container {
+    max-width: 90% !important;
+  }
+
+}
+</style>
+{% style %}
+
+{% endstyle %}
+<section class="container">
+  <div class="header">
+    <div class="header__logo">
+      {% if section.settings.header_nav_logo != nil %}
+        {{ section.settings.header_nav_logo | image_url: width: 800 | image_tag }}
+      {% else %}
+        <h1>Oxedent</h1>
+      {% endif %}
+    </div>
+    <div>
+      <a class="header__btn" href={{ section.settings.header_nav_link }}>{{ section.settings.header_nav_btn }}</a>
+    </div>
+  </div>
+
+</section>
+
+
+{% schema %}
+
+  {
+    "name": "header_nav",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "header_nav_logo",
+        "label": "logo"
+      }, {
+        "type": "text",
+        "id": "header_nav_btn",
+        "label": "Button",
+        "default": "APPLY FOR A FREE AUDIT"
+      }, {
+        "type": "url",
+        "id": "header_nav_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "header_nav"
+      }
+    ]
+  }
+
+{% endschema %}

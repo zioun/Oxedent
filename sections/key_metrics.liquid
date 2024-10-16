@@ -1,0 +1,150 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .metrics_title {
+    text-align: center;
+    font-weight: bold;
+    padding: 50px 0;
+  }
+  .metrics-area{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .metrics-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .metrics-item h1 {
+    font-weight: bold;
+    color: #001F51;
+  }
+  .metrics-item p{
+    font-size: 20px;
+  }
+
+
+  @media (max-width: 1024px) {
+    .container {
+      max-width: 740px !important;
+    }
+    .metrics-area{
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  } 
+  @media (max-width: 768px) {
+    .container {
+      max-width: 500px !important;
+      padding: 0px 20px;
+    }
+    .metrics-area{
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+
+
+</style>
+{% style %}
+  .metrics_title {
+    color: {{ section.settings.metrics_title }};
+    font-size: {{ section.settings.metrics_title_font }}px;
+  }
+{% endstyle %}
+<section class="container">
+  <div class="metrics">
+    <div>
+      <h1 class="metrics_title">{{ section.settings.metrics_title_text }}</h1>
+    </div>
+    <div class="metrics-area">
+        {% for block in section.blocks %}
+        {% if block.type == "metrics_item" %}
+            <div class="metrics-item">
+            <h1 style="font-size: {{ block.settings.metrics_item_title_font }}px;">{{ block.settings.metrics_item_title }}</h1>
+            <p>{{ block.settings.metrics_item_para }}</p>
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+
+</section>
+
+
+{% schema %}
+
+  {
+    "name": "key_metrics",
+    "settings": [
+      {
+        "type": "text",
+        "id": "metrics_title_text",
+        "label": "metrics text",
+        "default": "Key Metrics"
+      }, {
+        "type": "color",
+        "id": "metrics_title",
+        "label": "Metrics Title",
+        "default": "#001F51"
+      }, {
+        "type": "range",
+        "id": "metrics_title_font",
+        "min": 12,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size",
+        "default": 30
+      }
+
+    ],
+    "blocks": [
+      {
+        "type": "metrics_item",
+        "name": "Metrics Item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "metrics_item_title",
+            "label": "metrics text",
+            "default": "Key Metrics"
+          }, {
+            "type": "text",
+            "id": "metrics_item_para",
+            "label": "metrics text",
+            "default": "Key Metrics"
+          }, {
+            "type": "range",
+            "id": "metrics_item_title_font",
+            "min": 12,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Font size",
+            "default": 80
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "key_metrics"
+      }
+    ]
+  }
+
+{% endschema %}

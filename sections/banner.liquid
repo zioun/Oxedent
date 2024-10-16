@@ -1,0 +1,93 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* common section */
+  .common__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #001F51;
+    text-align: center;
+  }
+  /* end common section */
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .banner{
+    height: 416px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .banner__box h1{
+    font-size: 40px;
+    max-width: 644px;
+    padding: 5px 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+</style>
+{% style %}
+    .banner{
+        background-color: {{ section.settings.banner__color }};
+    }
+    .banner__box{
+        background-color: {{ section.settings.banner__box__color }};
+    }
+    .banner__box h1{
+        color: {{ section.settings.banner__box__text__color }}
+    }
+{% endstyle %}
+<section class="">
+  <div class="banner">
+    <div class="banner__box container">
+      <h1>{{ section.settings.banner__box__text }}</h1>
+    </div>
+  </div>
+
+</section>
+
+
+{% schema %}
+
+  {
+    "name": "banner",
+    "settings": [
+      {
+        "type": "color",
+        "id": "banner__color",
+        "label": "Banner Color",
+        "default": "#201F1D"
+      },
+      {
+        "type": "text",
+        "id": "banner__box__text",
+        "label": "Banner Text",
+        "default": "$105K to $247K in less than 60 Days"
+      },
+      {
+        "type": "color",
+        "id": "banner__box__color",
+        "label": "Banner Box Color",
+        "default": "#29AFE7"
+      },
+      {
+        "type": "color",
+        "id": "banner__box__text__color",
+        "label": "Banner Box Text Color",
+        "default": "#ffffff"
+      }
+    ],
+    "presets": [
+      {
+        "name": "banner"
+      }
+    ]
+  }
+
+{% endschema %}
