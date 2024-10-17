@@ -216,67 +216,69 @@
 
 <script>
   var currentIndex = 0;
-  var items = document.querySelectorAll('.grid-item img, .grid-item video'); 
+  var items = document.querySelectorAll('.grid-item img, .grid-item video');
   var totalItems = items.length;
   
   // Open lightbox for image or video
   function openLightbox(element, index) {
-    currentIndex = index;
-    
-    if (element.tagName === "VIDEO") {
-      var videoSource = element.src || element.currentSrc;
-      document.getElementById("lightbox-content").innerHTML = `
-        <video muted loop controls playsinline>
-          <source src="${videoSource}" type="video/mp4">
-        </video>`;
-    } else {
-      document.getElementById("lightbox-content").innerHTML = element.outerHTML;
-    }
+  currentIndex = index;
   
-    document.getElementById("lightbox").style.display = "block";
-    updatePositionText();
+  if (element.tagName === "VIDEO") {
+    var videoSource = element.src || element.currentSrc;
+    document.getElementById("lightbox-content").innerHTML = `
+      <video muted loop autoplay controls playsinline>
+        <source src="${videoSource}" type="video/mp4">
+      </video>`;
+  } else {
+    document.getElementById("lightbox-content").innerHTML = element.outerHTML;
+  }
+  
+  document.getElementById("lightbox").style.display = "block";
+  updatePositionText();
   }
   
   // Close the lightbox
   function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
+  document.getElementById("lightbox").style.display = "none";
   }
   
   // Change image/video
   function changeImage(direction) {
-    currentIndex += direction;
-    if (currentIndex < 0) {
-      currentIndex = totalItems - 1;
-    } else if (currentIndex >= totalItems) {
-      currentIndex = 0;
-    }
-    updateLightbox(items[currentIndex]);
-    updatePositionText();
+  currentIndex += direction;
+  
+  if (currentIndex < 0) {
+    currentIndex = totalItems - 1; // Loop to last item if out of bounds
+  } else if (currentIndex >= totalItems) {
+    currentIndex = 0; // Loop to first item if out of bounds
+  }
+  
+  updateLightbox(items[currentIndex]); // Update lightbox content
+  updatePositionText(); // Update position text
   }
   
   // Update the content inside the lightbox
   function updateLightbox(element) {
-    if (element.tagName === "VIDEO") {
-      var videoSource = element.src || element.currentSrc;
-      document.getElementById("lightbox-content").innerHTML = `
-        <video muted loop controls playsinline>
-          <source src="${videoSource}" type="video/mp4">
-        </video>`;
-    } else {
-      document.getElementById("lightbox-content").innerHTML = element.outerHTML;
-    }
+  if (element.tagName === "VIDEO") {
+    var videoSource = element.src || element.currentSrc;
+    document.getElementById("lightbox-content").innerHTML = `
+      <video muted loop autoplay controls playsinline>
+        <source src="${videoSource}" type="video/mp4">
+      </video>`;
+  } else {
+    document.getElementById("lightbox-content").innerHTML = element.outerHTML;
+  }
   }
   
   // Update the position text
   function updatePositionText() {
-    document.getElementById("position-text").textContent = (currentIndex + 1) + "/" + totalItems;
+  document.getElementById("position-text").textContent = (currentIndex + 1) + "/" + totalItems;
   }
   
   // Close lightbox when clicking outside
   window.onclick = function(event) {
-    var lightbox = document.getElementById("lightbox");
-    if (event.target === lightbox) {
-      closeLightbox();
-    }
+  var lightbox = document.getElementById("lightbox");
+  if (event.target === lightbox) {
+    closeLightbox();
+  }
   }
 </script>
