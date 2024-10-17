@@ -16,45 +16,48 @@
     max-width: 900px;
     margin: auto;
   }
-  .key_details_one, .key_details_two, .key_details_three, .key_details_four{
+  .key_details_one,
+  .key_details_two,
+  .key_details_three,
+  .key_details_four {
     margin-top: 50px;
   }
-  .key_details_title{
+  .key_details_title {
     font-size: 40px;
     font-weight: 600;
   }
-  .key_details_para{
+  .key_details_para {
     font-size: 19px;
     font-weight: 500;
   }
 
-  .key_details_img_area{
+  .key_details_img_area {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     margin-top: 50px;
   }
-  .key_details_img_area img{
+  .key_details_img_area img {
     width: 100%;
     height: 435px;
   }
   @media (max-width: 1024px) {
-    .key_details_img_area{
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
-    margin-top: 50px;
+    .key_details_img_area {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 10px;
+      margin-top: 50px;
+    }
   }
-  } 
   @media (max-width: 768px) {
     .container {
       max-width: 500px !important;
-      padding: 0px 20px;
+      padding: 0 20px;
     }
-    .metrics-area{
-    grid-template-columns: repeat(1, 1fr) !important;
+    .metrics-area {
+      grid-template-columns: repeat(1, 1fr) !important;
+    }
   }
-}
 
 
 </style>
@@ -65,32 +68,40 @@
   <div class="key_details_area">
     <div class="key_details_one">
       <h1 class="key_details_title">{{ section.settings.key_details_title_1 }}</h1>
-      <p class="key_details_para">{{ section.settings.key_details_para_1 }}</p>
+      <div class="myParagraph">
+        <p class="key_details_para">{{ section.settings.key_details_para_1 }}</p>
+      </div>
     </div>
-     <div class="key_details_img_area">
-          {% for block in section.blocks %}
-            {% if block.type == "key_details_blk" %}
-              <div class="metrics-item">
-                {{ block.settings.key_details_image |  image_url: width: 800 |  image_tag }}
-              </div>
-            {% endif %}
-          {% endfor %}
-      </div> 
+    <div class="key_details_img_area">
+      {% for block in section.blocks %}
+        {% if block.type == "key_details_blk" %}
+          <div class="metrics-item">
+            {{ block.settings.key_details_image | image_url: width: 800 | image_tag }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
     <div class="key_details_two">
       <h1 class="key_details_title">{{ section.settings.key_details_title_2 }}</h1>
-      <p class="key_details_para">{{ section.settings.key_details_para_2 }}</p>
+      <div class="myParagraph">
+        <p class="key_details_para">{{ section.settings.key_details_para_2 }}</p>
+      </div>
     </div>
     <div class="key_details_three">
       <h1 class="key_details_title">{{ section.settings.key_details_title_3 }}</h1>
-      <p class="key_details_para">{{ section.settings.key_details_para_3 }}</p>
+      <div class="myParagraph">
+        <p class="key_details_para">{{ section.settings.key_details_para_3 }}</p>
+      </div>
     </div>
     <div class="key_details_four">
       <h1 class="key_details_title">{{ section.settings.key_details_title_4 }}</h1>
-      <p class="key_details_para">{{ section.settings.key_details_para_4 }}</p>
+      <div class="myParagraph">
+        <p class="key_details_para">{{ section.settings.key_details_para_2 }}</p>
+      </div>
     </div>
   </div>
-
 </section>
+
 
 
 {% schema %}
@@ -157,12 +168,27 @@
       {
         "name": "key_details",
         "blocks": [
-            {
-                "type": "key_details_blk"
-            }
+          {
+            "type": "key_details_blk"
+          }
         ]
       }
     ]
   }
 
 {% endschema %}
+
+<script>
+  // Select all elements with the class "myParagraph"
+const paragraphs = document.querySelectorAll('.myParagraph');
+
+// Iterate over each paragraph to check for <ul> elements inside
+paragraphs.forEach(paragraph => {
+  if (paragraph.querySelector('ul')) {
+    paragraph.style.paddingLeft = '50px';
+  } else {
+    paragraph.style.paddingLeft = '0px';
+  }
+});
+
+</script>
