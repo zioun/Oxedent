@@ -4,24 +4,29 @@
     margin: 0;
     box-sizing: border-box;
   }
+
   .common__title {
     font-size: 30px;
     font-weight: bold;
     color: #001F51;
     text-align: center;
   }
+
   .container {
     max-width: 900px;
     margin: auto;
   }
+
   .grid__ad__page__area {
     background-color: white;
   }
+
   .grid__ad__page__section {
     margin-top: 20px;
     display: flex;
     justify-content: center;
   }
+
   .grid__ad__page__title {
     font-size: 40px;
     color: #3D3D3D;
@@ -31,11 +36,13 @@
     margin-top: 42px;
     margin-bottom: 30px;
   }
+
   .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
   }
+
   .grid-item {
     background-color: #fff;
     border-radius: 10px;
@@ -45,18 +52,22 @@
     align-items: center;
     cursor: pointer;
   }
+
   .grid-item img,
   .grid-item video {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .grid-item img:hover {
     opacity: 0.7;
   }
+
   .grid-item video:hover {
     opacity: 0.7;
   }
+
   /* Lightbox Styles */
   .lightbox {
     display: none;
@@ -68,6 +79,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
   }
+
   .lightbox-content {
     position: relative;
     margin: auto;
@@ -76,11 +88,13 @@
     max-width: 90%;
     text-align: center;
   }
+
   .lightbox img,
   .lightbox video {
     max-width: 100%;
     height: auto;
   }
+
   .close {
     position: absolute;
     top: 20px;
@@ -90,7 +104,6 @@
     font-weight: bold;
     cursor: pointer;
   }
-  /* Existing styles */
 
   .arrow {
     position: absolute;
@@ -117,78 +130,22 @@
       <h1 class="grid__ad__page__title">{{ section.settings.grid__ad__page__title }}</h1>
       <div class="grid-container">
         {% for block in section.blocks %}
-          <div class="grid-item" style="grid-row: span {{ block.settings.grid__span | default: 1 }};">
-            {% case block.type %}
-              {% when "grid__container" %}
-                {% if block.settings.grid__image != nil %}
-                  <img
-                    src="{{ block.settings.grid__image | image_url: width: 800 }}"
-                    alt="Grid Image"
-                    onclick="openLightbox(this, {{ forloop.index0 }})">
-                {% endif %}
-                {% if block.settings.grid__video != nil %}
-                  {{ block.settings.grid__video 
- | video_tag: autoplay: true, loop: true, muted: true, controls: true, image_size: '600x' }}
-                {% endif %}
-
-            {% endcase %}
-          </div>
+        <div class="grid-item" style="grid-row: span {{ block.settings.grid__span | default: 1 }};">
+          {% case block.type %}
+          {% when "grid__container" %}
+          {% if block.settings.grid__image != nil %}
+          <img src="{{ block.settings.grid__image | image_url: width: 800 }}" alt="Grid Image"
+            onclick="openLightbox(this, {{ forloop.index0 }})">
+          {% elsif block.settings.grid__video != nil %}
+          {{ block.settings.grid__video | video_tag: autoplay: true, loop: true, muted: true, controls: true, image_size: '600x' }}
+          {% endif %}
+          {% endcase %}
+        </div>
         {% endfor %}
       </div>
     </div>
   </div>
 </section>
-
-
-{% schema %}
-  {
-    "name": "Grid__Ad Page",
-    "settings": [
-      {
-        "type": "text",
-        "id": "grid__ad__page__title",
-        "default": "Grid Ad Page",
-        "label": "Grid Ad Page Title"
-      }
-    ],
-    "blocks": [
-      {
-        "name": "grid__container",
-        "type": "grid__container",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "grid__image",
-            "label": "Grid Image"
-          }, {
-            "type": "video",
-            "id": "grid__video",
-            "label": "Grid Video"
-          }, {
-            "type": "range",
-            "id": "grid__span",
-            "min": 1,
-            "max": 3,
-            "step": 1,
-            "unit": "px",
-            "label": "Grid Span",
-            "default": 1
-          }
-        ]
-      }
-    ],
-    "presets": [
-      {
-        "name": "Grid Ad Page",
-        "blocks": [
-          {
-            "type": "grid__container"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
@@ -198,87 +155,138 @@
   <span class="arrow arrow-right" onclick="changeImage(1)">&#10095;</span>
   <div id="position-text" style="color: white; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 20px;">
     1/10
-  <!-- This will be dynamically updated -->
-  </div>
-</div>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <span class="close" onclick="closeLightbox()">&times;</span>
-  <div class="lightbox-content" id="lightbox-content"></div>
-  <span class="arrow arrow-left" onclick="changeImage(-1)">&#10094;</span>
-  <span class="arrow arrow-right" onclick="changeImage(1)">&#10095;</span>
-  <div id="position-text" style="color: white; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 20px;">
-    1/2
-  <!-- This will be dynamically updated -->
+    <!-- This will be dynamically updated -->
   </div>
 </div>
 
 <script>
   var currentIndex = 0;
-  var items = document.querySelectorAll('.grid-item img, .grid-item video');
-  var totalItems = items.length;
-  
+  var items;
+
+  // Function to filter only visible items
+  function getVisibleItems() {
+    return Array.from(document.querySelectorAll('.grid-item img, .grid-item video')).filter(function (el) {
+      return el.offsetParent !== null;
+    });
+  }
+
+  window.onload = function () {
+    items = getVisibleItems(); // Update items after content is fully loaded
+    totalItems = items.length;
+  };
+
   // Open lightbox for image or video
   function openLightbox(element, index) {
-  currentIndex = index;
-  
-  if (element.tagName === "VIDEO") {
-    var videoSource = element.src || element.currentSrc;
-    document.getElementById("lightbox-content").innerHTML = `
+    currentIndex = index;
+
+    if (element.tagName === "VIDEO") {
+      var videoSource = element.src || element.currentSrc;
+      document.getElementById("lightbox-content").innerHTML = `
       <video muted loop autoplay controls playsinline>
         <source src="${videoSource}" type="video/mp4">
       </video>`;
-  } else {
-    document.getElementById("lightbox-content").innerHTML = element.outerHTML;
+    } else {
+      document.getElementById("lightbox-content").innerHTML = element.outerHTML;
+    }
+
+    document.getElementById("lightbox").style.display = "block";
+    updatePositionText();
   }
-  
-  document.getElementById("lightbox").style.display = "block";
-  updatePositionText();
-  }
-  
+
   // Close the lightbox
   function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
+    document.getElementById("lightbox").style.display = "none";
   }
-  
+
   // Change image/video
   function changeImage(direction) {
-  currentIndex += direction;
-  
-  if (currentIndex < 0) {
-    currentIndex = totalItems - 1; // Loop to last item if out of bounds
-  } else if (currentIndex >= totalItems) {
-    currentIndex = 0; // Loop to first item if out of bounds
+    currentIndex += direction;
+
+    if (currentIndex < 0) {
+      currentIndex = items.length - 1; // Loop to last item if out of bounds
+    } else if (currentIndex >= items.length) {
+      currentIndex = 0; // Loop to first item if out of bounds
+    }
+
+    updateLightbox(items[currentIndex]); // Update lightbox content
+    updatePositionText(); // Update position text
   }
-  
-  updateLightbox(items[currentIndex]); // Update lightbox content
-  updatePositionText(); // Update position text
-  }
-  
+
   // Update the content inside the lightbox
   function updateLightbox(element) {
-  if (element.tagName === "VIDEO") {
-    var videoSource = element.src || element.currentSrc;
-    document.getElementById("lightbox-content").innerHTML = `
+    if (element.tagName === "VIDEO") {
+      var videoSource = element.src || element.currentSrc;
+      document.getElementById("lightbox-content").innerHTML = `
       <video muted loop autoplay controls playsinline>
         <source src="${videoSource}" type="video/mp4">
       </video>`;
-  } else {
-    document.getElementById("lightbox-content").innerHTML = element.outerHTML;
+    } else {
+      document.getElementById("lightbox-content").innerHTML = element.outerHTML;
+    }
   }
-  }
-  
+
   // Update the position text
   function updatePositionText() {
-  document.getElementById("position-text").textContent = (currentIndex + 1) + "/" + totalItems;
+    document.getElementById("position-text").textContent = (currentIndex + 1) + "/" + items.length;
   }
-  
+
   // Close lightbox when clicking outside
-  window.onclick = function(event) {
-  var lightbox = document.getElementById("lightbox");
-  if (event.target === lightbox) {
-    closeLightbox();
-  }
+  window.onclick = function (event) {
+    var lightbox = document.getElementById("lightbox");
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
   }
 </script>
+
+{% schema %}
+{
+  "name": "Grid__Ad Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "grid__ad__page__title",
+      "default": "Grid Ad Page",
+      "label": "Grid Ad Page Title"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "grid__container",
+      "type": "grid__container",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "grid__image",
+          "label": "Grid Image"
+        },
+        {
+          "type": "video",
+          "id": "grid__video",
+          "label": "Grid Video"
+        },
+        {
+          "type": "range",
+          "id": "grid__span",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "unit": "px",
+          "label": "Grid Span",
+          "default": 1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grid Ad Page",
+      "blocks": [
+        {
+          "type": "grid__container"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

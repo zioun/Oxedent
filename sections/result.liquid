@@ -114,7 +114,7 @@
               </div>
               <div class="result__card__area--paragraph">
                 <p>{{ block.settings.result__para }}</p>
-                <a href="#">Read more</a>
+                <a href={{ block.settings.button_link }}>{{ block.settings.button__text }}</a>
               </div>
             </div>
             <div>
@@ -163,6 +163,16 @@
           "label": "Paragraph",
           "default": "<p>Here's how we scale this brand from $105K to $247K in 2 months</p>"
         },
+        {
+  "type": "text",
+  "id": "button__text",
+  "label": "Button Text",
+  "default": "Read More"
+},{
+  "type": "url",
+  "id": "button_link",
+  "label": "Button link"
+},
         {
           "type": "image_picker",
           "id": "result__right__img",
